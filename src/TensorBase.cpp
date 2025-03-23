@@ -338,8 +338,14 @@ std::vector<size_t> Tensor<T>::idx2loc(size_t idx, const std::vector<size_t>& sh
     return loc;
 }
 
-
 template class Tensor<int>;
+template class Tensor<unsigned int>;
+template class Tensor<short int>;
+template class Tensor<unsigned short int >;
+template class Tensor<long int>;
+template class Tensor<long long int>;
+template class Tensor<unsigned long long int>;
 template class Tensor<size_t>;
 template class Tensor<float>;
 template class Tensor<double>;
+template class Tensor<long double>;
