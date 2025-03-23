@@ -438,9 +438,10 @@ Tensor<T> tensor_arange(int start, int stop, int stride) {
     return Tensor<T>(elements, shape);
 }
 
-// TODO: overload for int and other types
 Tensor<float> tensor_rand(size_t size, float low, float high) {
-    assert(size >= 0 && "Trying to create tensor with negative dimension\n");
+    if (size < 0) {
+        throw std::invalid_argument("Trying to create tensor with negative dimension\n");
+    }
 
     float elements[size];
     for (size_t i = 0; i < size; ++i) {

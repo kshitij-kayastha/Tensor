@@ -34,5 +34,4 @@
 .vscode
 *.sh
 
-# tests/test.cpp
-# example.cpp
+*.o
