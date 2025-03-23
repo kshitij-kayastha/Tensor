@@ -72,6 +72,12 @@ private:
     std::vector<size_t> idx2loc(size_t idx, const std::vector<size_t>& shape) const;
 };
 
+extern template class Tensor<int>;
+extern template class Tensor<size_t>;
+extern template class Tensor<float>;
+extern template class Tensor<double>;
+
+// Tensor APIs
 
 template <typename T>
 Tensor<T> tensor(T* data, size_t size);
@@ -106,12 +112,5 @@ Tensor<T> tensor_ones(std::vector<size_t> shape);
 
 template <typename T>
 Tensor<T> tensor_eye(size_t rows, size_t cols=0, int offset = 0);
-
-
-
-extern template class Tensor<int>;
-extern template class Tensor<size_t>;
-extern template class Tensor<float>;
-extern template class Tensor<double>;
 
 #endif // TENSOR_H

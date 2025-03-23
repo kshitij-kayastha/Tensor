@@ -17,7 +17,7 @@ int main(void) {
     srand(time(NULL));
 
     Tensor<float> t1 = tensor_rand({4, 3, 2});
-    printf("Actual Data\n");
+    printf("Original\n");
     t1.display();
     printf("\n");
     
