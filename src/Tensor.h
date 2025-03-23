@@ -240,10 +240,11 @@ public:
     Tensor<T> sum(int axis = -1) {
         // TODO
         assert(axis < 10);
-        T elements[1];
+        T total = 0;
         for (size_t i = 0; i < m_size; ++i) {
-            elements[0] += m_elements[i];    
+            total += m_elements[i];    
         }
+        T elements[1] = {total};
         return Tensor<T>(elements, {1, 1});
     }
 

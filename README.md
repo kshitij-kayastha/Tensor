@@ -1,11 +1,12 @@
 # Tensor
 
-A simple tensor library in C++ for multi-dimensional arrays, supporting basic operations such as element-wise addition, scalar multiplication, and tensor reshaping.
+A simple, header only tensor library in C++ for multi-dimensional arrays, supporting basic operations.
 
 ## Features
 
 - Multi-dimensional tensor support
 - Element-wise operations
+- Tensor methods (WIP)
 - Broadcasting support (WIP)
 - Reduction methods (WIP)
 - Slice manipulation (WIP)
@@ -54,7 +55,7 @@ int main() {
 ### Compile and Run
 
 ```sh
-g++ -o tensor_example main.cpp TensorBase.cpp -std=c++17
+g++ -o tensor_example main.cpp -std=c++17
 ./tensor_example
 ```
 
