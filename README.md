@@ -54,7 +54,7 @@ int main() {
 ### Compile and Run
 
 ```sh
-g++ -o tensor_example main.cpp Tensor.cpp -std=c++17
+g++ -o tensor_example main.cpp TensorBase.cpp -std=c++17
 ./tensor_example
 ```
 
