@@ -12,7 +12,7 @@ A simple tensor library in C++ for multi-dimensional arrays, supporting basic op
 
 ## Installation
 
-Clone the repository and include `tensor.hpp` and `tensor.cpp` in your project.
+Clone the repository and include `Tensor.hpp` in your project.
 
 ```sh
 git clone https://github.com/kshitij-kayastha/Tensor.git
