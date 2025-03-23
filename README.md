@@ -1,6 +1,6 @@
 # Tensor
 
-A simple, header only tensor library in C++ for multi-dimensional arrays, supporting basic operations.
+A simple, header-only tensor library in C++ for multi-dimensional arrays, supporting basic operations.
 
 ## Features
 
