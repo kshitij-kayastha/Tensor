@@ -54,6 +54,7 @@ public:
     // Tensor max(int axis = -1)
     // Tensor min(int axis = -1) 
     // Tensor mean(int axis = -1)
+    // Tensor
 
     // Transformation Methods
     void reshape(const std::vector<size_t> shape);
