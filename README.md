@@ -13,8 +13,8 @@ A simple, header-only tensor library in C++ for multi-dimensional arrays, suppor
 Clone the repository and include `tensor.hpp` and `tensor.cpp` in your project.
 
 ```sh
-git clone https://github.com/kshitij-kayastha/tensor.git
-cd tensor
+git clone https://github.com/kshitij-kayastha/Tensor.git
+cd Tensor
 ```
 
 ## Usage
@@ -22,18 +22,26 @@ cd tensor
 Example usage of the Tensor library:
 
 ```cpp
-#include "tensor.hpp"
+#include <time.h>
+#include <vector>
+#include "Tensor.h"
 
 int main() {
-    std::vector<size_t> shape = {2, 3};
-    float elements[] = {1, 2, 3, 4, 5, 6};
-    Tensor<float> tensor(elements, shape);
-    tensor.display();
+    srand(time(NULL));
 
+    Tensor<float> t1 = tensor_rand({4, 3, 2}, -10, 10);
+    printf("Original\n");
+    t1.display();
+    printf("\n");
+    
+    printf("Reshape\n");
+    t1.reshape({3,2,4});
+    t1.display();
+    printf("\n");
 
-    Tensor<float> random_tensor = tensor_rand(shape);
-    random_tensor.display();
-    return 0;
+    printf("Apply sigmoid\n");
+    t1.apply(sigmoid);
+    t1.display();
 }
 ```
 

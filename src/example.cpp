@@ -9,28 +9,22 @@ float sigmoid(float x) {
     return 1 / (1 + std::exp(-x));
 }
 
-float square(float x) {
-    return x*x;
-}
-
 int main(void) {
     srand(time(NULL));
 
-    Tensor<float> t1 = tensor_rand({4, 3, 2});
+    Tensor<float> t1 = tensor_rand({4, 3, 2}, -10, 10);
     printf("Original\n");
     t1.display();
     printf("\n");
     
     printf("Reshape\n");
-    t1.reshape({3,4,2});
+    t1.reshape({3,2,4});
     t1.display();
-    printf("Done\n");
+    printf("\n");
 
-
-
-
-
-
-
+    printf("Apply sigmoid\n");
+    t1.apply(sigmoid);
+    t1.display();
+    
     return 0;
 }
