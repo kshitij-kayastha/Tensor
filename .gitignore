@@ -34,5 +34,5 @@
 .vscode
 *.sh
 
-tests/test.cpp
-example.cpp
+# tests/test.cpp
+# example.cpp
