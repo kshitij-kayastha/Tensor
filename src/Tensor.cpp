@@ -1,7 +1,7 @@
 // Author: Kshitij Kayastha
 // Date: 03/13/2025
 
-#include "tensor.hpp"
+#include "Tensor.h"
 
 template <typename T>
 Tensor<T>::Tensor(T* elements, std::vector<size_t> shape) : m_shape(shape) {
@@ -117,54 +117,50 @@ void Tensor<T>::display(void) const {
 
 template <typename T>
 Tensor<T> Tensor<T>::add(const Tensor<T>& tensor) const {
-    Tensor<T> add(const Tensor<T>& tensor) const {
-        std::vector<size_t> tensor_shape = tensor.shape();
-        if (m_shape.size() != tensor_shape.size()) {
+    std::vector<size_t> tensor_shape = tensor.shape();
+    if (m_shape.size() != tensor_shape.size()) {
+        throw std::out_of_range("Shape of tensor a does not match the shape of tensor b\n");
+    }
+
+    for (size_t i = 0; i < m_shape.size(); ++i) {
+        if (m_shape[i] != tensor_shape[i]) {
             throw std::out_of_range("Shape of tensor a does not match the shape of tensor b\n");
         }
-
-        for (size_t i = 0; i < m_shape.size(); ++i) {
-            if (m_shape[i] != tensor_shape[i]) {
-                throw std::out_of_range("Shape of tensor a does not match the shape of tensor b in dimension %zu\n", i);
-            }
-        }
-        
-        T* elements = new T[m_size];
-        assert(elements != nullptr);
-        for (size_t i = 0; i < m_size; ++i) {
-            elements[i] = m_elements[i] + tensor.at(i);
-        }
-
-        Tensor<T> result(elements, m_shape);
-        delete[] elements;
-        return result;
     }
+    
+    T* elements = new T[m_size];
+    assert(elements != nullptr);
+    for (size_t i = 0; i < m_size; ++i) {
+        elements[i] = m_elements[i] + tensor.at(i);
+    }
+
+    Tensor<T> result(elements, m_shape);
+    delete[] elements;
+    return result;
 }
 
 template <typename T>
 Tensor<T> Tensor<T>::subtract(const Tensor<T>& tensor) const {
-    Tensor<T> add(const Tensor<T>& tensor) const {
-        std::vector<size_t> tensor_shape = tensor.shape();
-        if (m_shape.size() != tensor_shape.size()) {
+    std::vector<size_t> tensor_shape = tensor.shape();
+    if (m_shape.size() != tensor_shape.size()) {
+        throw std::out_of_range("Shape of tensor a does not match the shape of tensor b\n");
+    }
+
+    for (size_t i = 0; i < m_shape.size(); ++i) {
+        if (m_shape[i] != tensor_shape[i]) {
             throw std::out_of_range("Shape of tensor a does not match the shape of tensor b\n");
         }
-
-        for (size_t i = 0; i < m_shape.size(); ++i) {
-            if (m_shape[i] != tensor_shape[i]) {
-                throw std::out_of_range("Shape of tensor a does not match the shape of tensor b in dimension %zu\n", i);
-            }
-        }
-        
-        T* elements = new T[m_size];
-        assert(elements != nullptr);
-        for (size_t i = 0; i < m_size; ++i) {
-            elements[i] = m_elements[i] - tensor.at(i);
-        }
-
-        Tensor<T> result(elements, m_shape);
-        delete[] elements;
-        return result;
     }
+    
+    T* elements = new T[m_size];
+    assert(elements != nullptr);
+    for (size_t i = 0; i < m_size; ++i) {
+        elements[i] = m_elements[i] - tensor.at(i);
+    }
+
+    Tensor<T> result(elements, m_shape);
+    delete[] elements;
+    return result;
 }
 
 template <typename T>
@@ -207,7 +203,7 @@ void Tensor<T>::reshape(const std::vector<size_t> shape) {
     auto strides = compute_strides(shape);
     size_t size = strides[0] * shape[0];
     if (m_size != size) {
-        throw std::out_of_range("Shape is invalid for input of size %zu\n", m_size)
+        throw std::out_of_range("Invalid shape provided\n");
     }
     m_shape = shape;
     m_stride = compute_strides(m_shape);
@@ -274,7 +270,7 @@ size_t Tensor<T>::loc2idx(const std::vector<size_t>& loc) const {
     size_t idx = 0;
     for (size_t i = 0; i < m_shape.size(); ++i) {
         if (loc[i] >= m_shape[i]) {
-            throw std::out_of_range("Index out of bounds at dim %zu\n", i);
+            throw std::out_of_range("Index out of bounds\n");
         }
         idx += loc[i] * m_stride[i];
     }
@@ -290,7 +286,7 @@ size_t Tensor<T>::loc2idx(const std::vector<size_t>& loc, const std::vector<size
     size_t idx = 0;
     for (size_t i = 0; i < shape.size(); ++i) {
         if (loc[i] >= shape[i]) {
-            throw std::out_of_range("Index out of bounds at dim %zu\n", i);
+            throw std::out_of_range("Index out of bounds\n");
         }
         idx += loc[i] * strides[i];
     }
@@ -331,3 +327,190 @@ template class Tensor<int>;
 template class Tensor<size_t>;
 template class Tensor<float>;
 template class Tensor<double>;
+
+
+template<typename T>
+Tensor<T> tensor(T* data, size_t size) {
+    return Tensor<T>(data, {1, size});
+}
+
+template<typename T>
+Tensor<T> tensor(std::vector<T> data) {
+    T elements[data.size()];
+    for (size_t i = 0; i < data.size(); ++i) {
+        elements[i] = data[i];
+    }
+    return Tensor<T>(elements, {1, data.size()});
+}
+
+template<typename T>
+Tensor<T> tensor_arange(size_t stop) {
+    assert (stop > 0);
+    std::vector<size_t> shape = {1, stop};
+    T elements[stop];
+    for (size_t i = 0; i < stop; ++i) {
+        elements[i] = i;
+    }
+    return Tensor<T>(elements, shape);
+}
+
+template<typename T>
+Tensor<T> tensor_arange(int start, int stop, int stride) {
+    if (stride == 0) {
+        throw std::invalid_argument("Stride must be nonzero\n");
+    }
+    if (stop < start){
+        if (stride >= 0) {
+            throw std::invalid_argument("Stride must be negative\n");
+        }
+    } else if (start < stop) {
+        if (stride < 0) {
+            throw std::invalid_argument("Stride must be positive\n");
+        }
+    }
+
+    size_t size = std::ceil(((float) stop - start) / stride);
+    std::vector<size_t> shape = {1, size};
+    T elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = (T) i * stride + start;
+    }
+    return Tensor<T>(elements, shape);
+}
+
+// TODO: overload for int and other types
+Tensor<float> tensor_rand(size_t size, float low, float high) {
+    assert(size >= 0 && "Trying to create tensor with negative dimension\n");
+
+    float elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = (((float) rand() * (high - low)) / (float) RAND_MAX) + low;
+    }
+    return Tensor<float>(elements, {1,size});
+}
+
+Tensor<float> tensor_rand(std::vector<size_t> shape, float low, float high) {
+    size_t size = 1;
+    for (size_t i = 0; i < shape.size(); ++i) {
+        if (shape[i] < 0) {
+            throw std::invalid_argument("Trying to create tensor with negative dimension\n");
+        }
+        size *= shape[i];
+    }
+    constexpr size_t SIZE_THRESHOLD = 1024;
+
+    if (size <= SIZE_THRESHOLD) {
+        // Stack allocation for small tensors
+        float elements[size];
+        for (size_t i = 0; i < size; ++i) {
+            elements[i] = (((float) rand() * (high - low)) / (float) RAND_MAX) + low;
+        }
+        return Tensor<float>(elements, shape);
+    } else{
+        // Heap allocation for large tensors
+        float* elements = new float[size];
+        for (size_t i = 0; i < size; ++i) {
+            elements[i] = (((float) rand() * (high - low)) / (float) RAND_MAX) + low;
+        }
+        Tensor<float> tensor(elements, shape);
+        delete[] elements;
+        return tensor;
+    }
+}
+
+template <typename T>
+Tensor<T> tensor_identity(size_t size) {
+    assert(size > 0);
+
+    T elements[size*size];
+    size_t c = size;
+    for (size_t i = 0; i < size*size; ++i) {
+        elements[i] = (c == size) ? 1 : 0;
+        c = (c == size) ? 0 : ++c;
+    }
+    return Tensor<T>(elements, {size, size});
+}
+
+template <typename T>
+Tensor<T> tensor_zeroes(size_t size) {
+    if (size < 0){
+        throw std::invalid_argument("Trying to create tensor with negative size\n");
+    }
+
+    T elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = 0.f;
+    }
+    return Tensor<T>(elements, {1,size});
+}
+
+template <typename T>
+Tensor<T> tensor_zeroes(std::vector<size_t> shape) {
+    size_t size = 1;
+    for (size_t i = 0; i < shape.size(); ++i) {
+        if (shape[i] < 0) {
+            throw std::invalid_argument("Trying to create tensor with negative dimension\n");
+        }
+        size *= shape[i];
+    }
+
+    T elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = 0.f;
+    }
+    return Tensor<T>(elements, shape);
+}
+
+template <typename T>
+Tensor<float> tensor_ones(size_t size) {
+    if (size < 0){
+        throw std::invalid_argument("Trying to create tensor with negative size\n");
+    }
+
+    float elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = 1.f;
+    }
+    return Tensor<float>(elements, {1,size});
+}
+
+template <typename T>
+Tensor<T> tensor_ones(std::vector<size_t> shape) {
+    size_t size = 1;
+    for (size_t i = 0; i < shape.size(); ++i) {
+        if (shape[i] < 0) {
+            throw std::invalid_argument("Trying to create tensor with negative dimension\n");
+        }
+        size *= shape[i];
+    }
+
+    T elements[size];
+    for (size_t i = 0; i < size; ++i) {
+        elements[i] = 1.f;
+    }
+    return Tensor<T>(elements, shape);
+}
+
+template <typename T>
+Tensor<T> tensor_eye(size_t rows, size_t cols, int offset) {
+    if (cols == 0) {
+        cols = rows;
+    }
+    if (rows <= 0) {
+        throw std::invalid_argument("Trying to create tensor with negative rows\n");
+    }
+    if (cols <= 0) {
+        throw std::invalid_argument("Trying to create tensor with negative columns\n");
+    }
+    // TODO: check if negative offset shift diagonal to the left
+
+    T elements[rows*cols];
+    size_t r;
+    size_t c;
+    for (size_t i = 0; i < rows*cols; ++i) {
+        r = i / cols;
+        c = i % cols;
+        elements[i] = (c - r == offset) ? 1.f : 0.f; 
+    }
+    return Tensor<T>(elements, {rows, cols});
+}

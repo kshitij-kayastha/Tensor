@@ -72,6 +72,43 @@ private:
     std::vector<size_t> idx2loc(size_t idx, const std::vector<size_t>& shape) const;
 };
 
+
+template <typename T>
+Tensor<T> tensor(T* data, size_t size);
+
+template<typename T>
+Tensor<T> tensor(std::vector<T> data);
+
+template<typename T>
+Tensor<T> tensor_arange(size_t stop);
+
+template<typename T>
+Tensor<T> tensor_arange(int start, int stop, int stride);
+
+Tensor<float> tensor_rand(size_t size, float low = 0., float high = 1.);
+
+Tensor<float> tensor_rand(std::vector<size_t> shape, float low = 0., float high = 1.);
+
+template <typename T>
+Tensor<T> tensor_identity(size_t size);
+
+template <typename T>
+Tensor<T> tensor_zeroes(size_t size);
+
+template <typename T>
+Tensor<T> tensor_zeroes(std::vector<size_t> shape);
+
+template <typename T>
+Tensor<float> tensor_ones(size_t size);
+
+template <typename T>
+Tensor<T> tensor_ones(std::vector<size_t> shape);
+
+template <typename T>
+Tensor<T> tensor_eye(size_t rows, size_t cols=0, int offset = 0);
+
+
+
 extern template class Tensor<int>;
 extern template class Tensor<size_t>;
 extern template class Tensor<float>;
