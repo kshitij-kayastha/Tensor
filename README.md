@@ -1,6 +1,6 @@
 # Tensor
 
-A simple, header-only tensor library in C++ for multi-dimensional arrays, supporting basic operations such as element-wise addition, scalar multiplication, and tensor reshaping.
+A simple tensor library in C++ for multi-dimensional arrays, supporting basic operations such as element-wise addition, scalar multiplication, and tensor reshaping.
 
 ## Features
 
