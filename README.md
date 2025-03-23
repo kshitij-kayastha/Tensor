@@ -26,6 +26,10 @@ Example usage of the Tensor library:
 #include <vector>
 #include "Tensor.h"
 
+float sigmoid(float x) {
+    return 1 / (1 + std::exp(-x));
+}
+
 int main() {
     srand(time(NULL));
 
